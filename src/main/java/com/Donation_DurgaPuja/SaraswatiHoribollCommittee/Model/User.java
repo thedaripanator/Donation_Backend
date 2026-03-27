@@ -20,8 +20,6 @@ public class User {
 
     private String role;
 
-    @Column(unique = true)
-    private String subDomainSlug;
 
 
 }

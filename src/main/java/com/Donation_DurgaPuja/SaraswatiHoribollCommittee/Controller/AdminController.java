@@ -1,6 +1,7 @@
 package com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Controller;
 
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Model.Donation;
+import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Model.UpdateRequest;
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Model.User;
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Service.AdminService;
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Service.DonationService;
@@ -25,7 +26,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> createSubAdmin(@RequestBody User subAdminRequest) {
         User savedUser = adminService.registerSubAdmin(subAdminRequest);
-        return ResponseEntity.ok("Sub-admin created! URL: /register/" + savedUser.getSubDomainSlug());
+        return ResponseEntity.ok(savedUser.getUsername());
     }
 
     @GetMapping("/sub_admin_details")
@@ -44,8 +45,8 @@ public class AdminController {
 
     @PutMapping("/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> editSubAdmin(@PathVariable Long id) {
-        User user=adminService.update(id);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<User> editSubAdmin(@PathVariable Long id, @RequestBody UpdateRequest updateData) {
+        User updatedUser = adminService.update(id, updateData.getPassword());
+        return ResponseEntity.ok(updatedUser);
     }
 }

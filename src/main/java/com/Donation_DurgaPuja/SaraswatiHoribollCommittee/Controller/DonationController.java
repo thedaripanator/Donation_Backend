@@ -23,8 +23,6 @@ public class DonationController {
     public ResponseEntity<String> collectDonation(
             @RequestBody Donation donation,
             @AuthenticationPrincipal UserDetails currentUser) {
-
-        // Use the service to save the donation linked to the logged-in user
         donationService.collectManualDonation(donation, currentUser.getUsername());
 
         return ResponseEntity.ok("Donation recorded successfully by agent: " + currentUser.getUsername());

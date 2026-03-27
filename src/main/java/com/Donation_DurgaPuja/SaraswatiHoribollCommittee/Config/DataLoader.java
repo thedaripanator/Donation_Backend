@@ -24,7 +24,7 @@ public class DataLoader implements CommandLineRunner {
             admin.setUsername("admin"); // Your main username
             admin.setPassword(passwordEncoder.encode("admin123")); // Your main password
             admin.setRole("ROLE_ADMIN");
-            admin.setSubDomainSlug("main-admin");
+
 
             userRepository.save(admin);
             System.out.println("Main Admin created successfully with username: admin");

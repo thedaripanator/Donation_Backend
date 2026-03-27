@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 
-    Optional<User> findBySubDomainSlug(String slug);
 
     Optional<User> findByUsername(String username);
 
     List<User> findByRole(String role);
 
+    boolean existsByUsername(String username);
 }

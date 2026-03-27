@@ -5,11 +5,11 @@ import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Model.User;
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Repository.DonationRepository;
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.List;
 
 @Service
@@ -22,24 +22,28 @@ public class AdminService {
     private DonationRepository donationRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
 
     // updating the password by the admin
-    public User update(Long id) {
+    @Transactional
+    public User update(Long id, String newRawPassword) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if (newRawPassword != null && !newRawPassword.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(newRawPassword));
+        }
 
-        user.setUsername(user.getUsername());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
-
     // Registering the sub _admin
-    public  User registerSubAdmin(User subAdmin) {
-        subAdmin.setPassword(passwordEncoder.encode(subAdmin.getPassword()));
+    public User registerSubAdmin(User subAdmin) {
+        if (userRepository.existsByUsername(subAdmin.getUsername())) {
+            throw new RuntimeException("Error: Username is already taken!");
+        }
+        String rawPassword = subAdmin.getPassword();
+        subAdmin.setPassword(passwordEncoder.encode(rawPassword));
         subAdmin.setRole("ROLE_SUBADMIN");
-
         return userRepository.save(subAdmin);
     }
 
