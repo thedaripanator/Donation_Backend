@@ -57,10 +57,26 @@ public class AdminService {
     public void toggleFreeze(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if(!user.isEnabled()){
+            user.setEnabled(false);
+        }
+        else {
+            user.setEnabled(!user.isEnabled());
+        }
 
-        // Flip the boolean (if true, becomes false; if false, becomes true)
-        user.setEnabled(!user.isEnabled());
+        userRepository.save(user);
+    }
 
+    @Transactional
+    public void toggleunfreeze(Long id){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if(user.isEnabled()){
+            user.setEnabled(true);
+        }
+        else {
+            user.setEnabled(!user.isEnabled());
+        }
         userRepository.save(user);
     }
 

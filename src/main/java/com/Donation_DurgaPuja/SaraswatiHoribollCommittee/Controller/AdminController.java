@@ -56,4 +56,11 @@ public class AdminController {
         adminService.toggleFreeze(id);
         return ResponseEntity.ok("User status updated successfully");
     }
+    @PatchMapping("/{id}/unfreeze")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> unfreezeUser(@PathVariable Long id) {
+        adminService.toggleunfreeze(id);
+        return ResponseEntity.ok("User status updated successfully");
+    }
+
 }
