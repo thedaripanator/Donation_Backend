@@ -41,4 +41,11 @@ public class AdminController {
         List<Donation> details = donationService.getDonationsByAgentId(id);
         return ResponseEntity.ok(details);
     }
+
+    @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<User> editSubAdmin(@PathVariable Long id) {
+        User user=adminService.update(id);
+        return ResponseEntity.ok(user);
+    }
 }
