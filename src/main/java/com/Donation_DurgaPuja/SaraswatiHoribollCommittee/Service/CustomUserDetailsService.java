@@ -27,6 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .disabled(!user.isEnabled())
                 .roles(user.getRole().replace("ROLE_", "")) // Removes 'ROLE_' because Spring adds it back
                 .build();
     }

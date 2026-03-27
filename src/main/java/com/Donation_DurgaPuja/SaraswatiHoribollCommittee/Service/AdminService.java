@@ -53,5 +53,16 @@ public class AdminService {
         return subadmins;
     }
 
+    @Transactional
+    public void toggleFreeze(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // Flip the boolean (if true, becomes false; if false, becomes true)
+        user.setEnabled(!user.isEnabled());
+
+        userRepository.save(user);
+    }
+
 
 }
