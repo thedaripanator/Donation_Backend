@@ -69,5 +69,4 @@ public class AdminService {
         user.setFrozen(false);
         userRepository.save(user);
     }
-
 }

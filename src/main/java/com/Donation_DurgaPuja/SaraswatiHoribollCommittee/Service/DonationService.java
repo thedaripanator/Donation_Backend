@@ -19,23 +19,24 @@ public class DonationService {
     private UserRepository userRepository;
 
     public void collectManualDonation(Donation donation, String username) {
-        // 1. Find the Agent in the DB based on the logged-in username
+
         User agent = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Agent not found in database"));
+        String rawPhone = donation.getPhoneNumber().replaceAll("[^0-9]", "");
+        if (rawPhone.length() > 10) {
+            rawPhone = rawPhone.substring(rawPhone.length() - 10);
+        }
+        donation.setPhoneNumber(rawPhone);
 
-        // 2. Link the donation to this specific Agent
         donation.setSubAdmin(agent);
-
-        // 3. Save the record
         donationRepository.save(donation);
     }
 
     public List<Donation> getDonationdetails(String username) {
-        // 1. Identify the agent
+
         User agent = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Agent not found"));
 
-        // 2. Ask the repository for ONLY this agent's donations
         return donationRepository.findBySubAdmin(agent);
     }
 
@@ -44,7 +45,11 @@ public class DonationService {
         User agent = userRepository.findById(agentId)
                 .orElseThrow(() -> new RuntimeException("Agent with ID " + agentId + " not found"));
 
-        // 2. Return the list of donations for that specific agent
+
         return donationRepository.findBySubAdmin(agent);
+    }
+    // Getting the details of all Donation details
+    public List<Donation> getallDonationdetails() {
+        return donationRepository.findAll();
     }
 }

@@ -22,6 +22,8 @@ public class AdminController {
     @Autowired
     private DonationService donationService;
 
+
+    // Register subadmin
     @PostMapping("/create-subadmin")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> createSubAdmin(@RequestBody User subAdminRequest) {
@@ -29,6 +31,7 @@ public class AdminController {
         return ResponseEntity.ok(savedUser.getUsername());
     }
 
+    // Getting all the subdomain
     @GetMapping("/sub_admin_details")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllSubAdmins() {
@@ -36,26 +39,38 @@ public class AdminController {
         return ResponseEntity.ok(users);
     }
 
+    //fetching the donation by the donation id
     @GetMapping("/agent/{id}/donations")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Donation>> getSpecificAgentDonations(@PathVariable Long id) {
         List<Donation> details = donationService.getDonationsByAgentId(id);
         return ResponseEntity.ok(details);
     }
+    //fetching all the donations info
+    @GetMapping("/donations")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Donation>> getAllDonations() {
+        List<Donation> detials=donationService.getallDonationdetails();
+        return ResponseEntity.ok(detials);
+    }
 
+
+    // Editing the info of the subadmin
     @PutMapping("/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> editSubAdmin(@PathVariable Long id, @RequestBody UpdateRequest updateData) {
         User updatedUser = adminService.update(id, updateData.getPassword());
         return ResponseEntity.ok(updatedUser);
     }
-
+    // Freezing the SubAdmin
     @PatchMapping("/{id}/freeze")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> freezeUser(@PathVariable Long id) {
         adminService.toggleFreeze(id);
         return ResponseEntity.ok("User status updated successfully");
     }
+
+    //UnFreezing the subAdmin
     @PatchMapping("/{id}/unfreeze")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> unfreezeUser(@PathVariable Long id) {

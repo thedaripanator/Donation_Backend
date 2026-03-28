@@ -12,11 +12,18 @@ public class Donation {
     private Long id;
     private String donorName;
     private Double amount;
-    private String PhoneNumber;
+    private String phoneNumber;
 
     @ManyToOne
     @JoinColumn(name = "sub_admin_id")
     private User subAdmin;
+
+    @Column(name = "payment_type")
+    private String paymentType;
+
+    @Column(name = "receipt_sent")
+    private boolean receiptSent = false;
+
 
 
 }
