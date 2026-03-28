@@ -27,6 +27,7 @@ public class DonationController {
 
         return ResponseEntity.ok("Donation recorded successfully by agent: " + currentUser.getUsername());
     }
+
     @GetMapping("/fetch_donation")
     @PreAuthorize("hasRole('SUBADMIN')")
     public ResponseEntity<List<Donation>> fetchDonation(@AuthenticationPrincipal UserDetails currentUser) {

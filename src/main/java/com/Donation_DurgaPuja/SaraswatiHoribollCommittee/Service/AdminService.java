@@ -44,6 +44,7 @@ public class AdminService {
         String rawPassword = subAdmin.getPassword();
         subAdmin.setPassword(passwordEncoder.encode(rawPassword));
         subAdmin.setRole("ROLE_SUBADMIN");
+        subAdmin.setFrozen(false);
         return userRepository.save(subAdmin);
     }
 
@@ -57,13 +58,7 @@ public class AdminService {
     public void toggleFreeze(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        if(!user.isEnabled()){
-            user.setEnabled(false);
-        }
-        else {
-            user.setEnabled(!user.isEnabled());
-        }
-
+        user.setFrozen(true);
         userRepository.save(user);
     }
 
@@ -71,14 +66,8 @@ public class AdminService {
     public void toggleunfreeze(Long id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        if(user.isEnabled()){
-            user.setEnabled(true);
-        }
-        else {
-            user.setEnabled(!user.isEnabled());
-        }
+        user.setFrozen(false);
         userRepository.save(user);
     }
-
 
 }
