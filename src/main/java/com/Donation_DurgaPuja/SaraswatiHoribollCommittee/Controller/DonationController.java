@@ -24,15 +24,15 @@ public class DonationController {
 
     @PostMapping("/collect")
     @PreAuthorize("hasRole('SUBADMIN')")
-    public ResponseEntity<String> collectDonation(
+    public ResponseEntity<Donation> collectDonation(
             @RequestBody Donation donation,
             @AuthenticationPrincipal UserDetails currentUser) {
 
         // The 'donation' object now automatically contains the paymentType
         // sent from the frontend modal (CASH or UPI).
-        donationService.collectManualDonation(donation, currentUser.getUsername());
+        Donation saved=donationService.collectManualDonation(donation, currentUser.getUsername());
 
-        return ResponseEntity.ok("Donation recorded successfully. Method: " + donation.getPaymentType());
+        return ResponseEntity.ok(saved);
     }
 
     @GetMapping("/fetch_donation")

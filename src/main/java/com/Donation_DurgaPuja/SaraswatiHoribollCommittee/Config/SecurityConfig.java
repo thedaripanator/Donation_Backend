@@ -30,13 +30,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers("/api/auth/**").permitAll()
-
+                        .requestMatchers("/api/members/**").permitAll()
 
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
 
                         .requestMatchers("/api/subadmin/**").hasRole("SUBADMIN")
-
+                        .requestMatchers("/api/upload-member/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());

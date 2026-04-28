@@ -6,7 +6,7 @@ import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Repository.DonationRepo
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

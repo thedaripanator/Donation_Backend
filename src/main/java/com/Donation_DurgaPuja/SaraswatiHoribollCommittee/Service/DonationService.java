@@ -18,7 +18,7 @@ public class DonationService {
     @Autowired
     private UserRepository userRepository;
 
-    public void collectManualDonation(Donation donation, String username) {
+    public Donation collectManualDonation(Donation donation, String username) {
 
         User agent = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Agent not found in database"));
@@ -29,7 +29,7 @@ public class DonationService {
         donation.setPhoneNumber(rawPhone);
 
         donation.setSubAdmin(agent);
-        donationRepository.save(donation);
+        return donationRepository.save(donation);
     }
 
     public List<Donation> getDonationdetails(String username) {
