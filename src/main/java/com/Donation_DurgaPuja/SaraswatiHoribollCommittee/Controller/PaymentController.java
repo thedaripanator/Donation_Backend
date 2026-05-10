@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
+
+    @GetMapping
+    public String health() {
+
+        return "OK";
+    }
     @Autowired
     private RazorpayService razorpayService;
 
