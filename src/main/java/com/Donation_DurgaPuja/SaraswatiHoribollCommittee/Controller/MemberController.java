@@ -5,13 +5,9 @@ import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Service.CloudinaryServi
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Model.Member;
 import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Repository.MemberRepository;
-import com.Donation_DurgaPuja.SaraswatiHoribollCommittee.Service.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -50,5 +46,10 @@ public class MemberController {
     @GetMapping("/members")
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
+    }
+
+    @DeleteMapping("/delete_members/{id}")
+    public void deletemember(@PathVariable Long id) {
+        memberRepository.deleteById(id);
     }
 }
