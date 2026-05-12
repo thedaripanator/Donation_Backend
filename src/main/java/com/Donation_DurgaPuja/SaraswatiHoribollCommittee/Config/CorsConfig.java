@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173","https://donation-frontend-mauve.vercel.app","https://saraswatihoribollcommittee.vercel.app/")
+                        .allowedOrigins("http://localhost:5173","https://donation-frontend-mauve.vercel.app","https://saraswatihoribollcommittee.vercel.app")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);
